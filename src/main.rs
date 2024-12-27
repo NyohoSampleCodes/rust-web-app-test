@@ -1,7 +1,5 @@
-use actix_web::{App, HttpServer, Responder, web};
-use opentelemetry::{
-    trace::{Span, Tracer, TracerProvider as _},
-};
+use actix_web::{web, App, HttpServer, Responder};
+use opentelemetry::trace::{Span, Tracer, TracerProvider as _};
 use opentelemetry_sdk::trace::TracerProvider;
 
 async fn hello() -> impl Responder {
@@ -14,9 +12,9 @@ async fn main() -> std::io::Result<()> {
     let provider = TracerProvider::builder()
         .with_simple_exporter(opentelemetry_stdout::SpanExporter::default())
         .build();
-    let tracer = provider.tracer("my_tracer");
+    let tracer = provider.tracer("rust-web-app-test");
 
-    let mut span = tracer.start("server_laungh");
+    let mut span = tracer.start("server_launch");
     span.add_event("start server!".to_string(), vec![]);
 
     println!("Start server");
@@ -26,7 +24,7 @@ async fn main() -> std::io::Result<()> {
         .run();
 
     span.end();
-    
+
     println!("Server started.");
     server.await?;
     println!("End.....");
