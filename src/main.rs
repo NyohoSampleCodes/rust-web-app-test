@@ -17,7 +17,8 @@ async fn main() -> std::io::Result<()> {
     let tracer = provider.tracer("my_tracer");
 
     let mut span = tracer.start("server_laungh");
-        
+    span.add_event("start server!".to_string(), vec![]);
+
     println!("Start server");
 
     let server = HttpServer::new(|| App::new().route("/", web::get().to(hello)))
