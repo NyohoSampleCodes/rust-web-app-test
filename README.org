@@ -2,4 +2,31 @@
 
 Rustで書かれた簡単なウェブアプリ
 
+- [X] 超簡単なHello, worldをまず作る
+- [X] どこかにデプロイする (Google Cloudにした)
+- [X] OpenTelemetry (New Relicの標準化したようなもの) を入れる
+- [ ] traceの情報を見られるようにする
 
+** 準備
+ここではGoogle Cloudにデプロイしてみる。
+
+Cloud Buildの設定でロールのCloud Run管理者を有効にすること。(やらなくいいかも)
+
+[[https://cloud.google.com/run/docs/deploying?hl=ja][Cloud Run へのコンテナ イメージのデプロイ  |  Cloud Run Documentation  |  Google Cloud]]
+を参考にして設定をする。
+
+#+begin_src shell
+gcloud config set project rustweb-by-nyoho
+#+end_src
+
+** 繰り返し作業
+
+#+begin_src shell
+gcloud builds submit --tag gcr.io/rustweb-by-nyoho/rust-web-app-test
+
+gcloud run deploy rustweb-by-nyoho --image gcr.io/rustweb-by-nyoho/rust-web-app-test 
+#+end_src
+
+** 次回にやりそう
+- [[https://www.jaegertracing.io/][Jaeger: open source, distributed tracing platform]]
+- Google Cloud Observablility, [[https://cloud.google.com/trace/docs?hl=ja][Cloud Trace]]
