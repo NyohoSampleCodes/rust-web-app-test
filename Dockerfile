@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY . .
 RUN cargo build --release
 
-FROM rust:1.83-bullseye
+FROM debian:bullseye-slim
 
 COPY --from=builder /usr/src/app/target/release/rust-web-app-test /usr/local/bin/rust-web-app-test
 EXPOSE 8080
